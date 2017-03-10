@@ -16,7 +16,7 @@
 * Fazer com que ao se apertar um botao do fliperama, o correspondente botao do emulador seja pressionado no teclado 
 */
 
-// Feito por Pedro Aurelio e testado no Windows 10 
+// Feito por Pedro Aurelio e testado no Windows 10 e a versao mais recenete em Ubuntu 16.04 
 
 /*Inicio da definicao das funcoes a serem utilizadas para o controle
   *
@@ -33,6 +33,13 @@ Mapeamento_jogo Controle;
 void setup() {
   configura_controle(&Controle,2);//para mudar para jogador 2, substitua o 1 por 2 
   Serial.begin(SERIAL_HID_BAUD);
+ /* Para ligar a comunicacao usb do arduino no Ubuntu 16.04, evitando a funcao autosuspend:
+  *    Carregue este codigo;
+  *    Apos o carregamento ser completado, abra o monitor serial (Ctrl + Shift + m)
+  *    Mude a selecao "9600 baud" para "115200"
+  *    Feche o monitor serial  e o arduino devera executar o programa normalmente
+  */ 
+  Serial.println("Configuracao comunicacao usb");//colocar uma comunicacao com a porta serial impede o ubuntu de suspender automaticamente o dispositvo (se nao der certo de primeira, tente abrir o monitor serial e configurar a taxa para 11520)
   Keyboard.begin();
 
 }
@@ -156,7 +163,7 @@ void mapeia_entradas_arduino(Mapeamento_jogo* Controle){
       if(analogRead(Controle.baixo) <= 500){
       Keyboard.press(Controle.tecla_baixo);
     }
-       if(analogRead(Controle.tecla_dir) <= 500){
+       if(analogRead(Controle.dir) <= 500){
       Keyboard.press(Controle.tecla_dir);
     }
 
